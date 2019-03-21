@@ -14,8 +14,7 @@ The current global mud registry is:
 
 - https://registry.micronets.in/mud
 
-## API Examples
-
+## API
 
 ```
 	# Retrieve the device registry URL for a vendor:
@@ -61,3 +60,28 @@ The current global mud registry is:
 Note: The above examples assume that the MUD files for the specified device models (UID64) already exist at the specified MUD urls.
 
 Note: The above examples are using 11 digit UID64 device model identifiers. Any unique indentifer scheme can be used.
+
+
+## Build
+Edit `package.json` to be sure the docker remote registry URL is correct for the `docker_publish` script
+
+```  "scripts": {
+    "start": "node ./mud-registry",
+    "docker-build": "docker build -t community.cablelabs.com:4567/micronets-docker/micronets-mud-registry .",
+    "docker-publish": "docker login community.cablelabs.com:4567; docker push community.cablelabs.com:4567/micronets-docker/micronets-mud-registry"
+  },
+```
+Install packages, build and publish:
+```
+  npm install
+  npm run docker_build
+  npm run docker_publish
+```
+## Deploy
+The Micronets MUD Registry is deployed as a docker container.
+Docker deployment instructions can be found [here](https://github.com/cablelabs/micronets/wiki/Docker-Deployment-Guide)
+
+## Example run command
+```
+docker run -d --name=micronets-mud-registry community.cablelabs.com:4567/micronets-docker/micronets-mud-registry:latest
+```
