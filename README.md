@@ -17,43 +17,43 @@ The current global mud registry is:
 ## API
 
 ```
-	# Retrieve the device registry URL for a vendor:
-	# /device-registry/:vendor-code
+# Retrieve the device registry URL for a vendor:
+# /device-registry/:vendor-code
 
-	$ curl https://registry.micronets.in/mud/device-registry/SHCR
-	  > https://shurecare.micronets.in/registry/devices/register-device
+$ curl https://registry.micronets.in/mud/device-registry/SHCR
+   > https://shurecare.micronets.in/registry/devices/register-device
 
-	# Register a device with a vendor's registry
-	# /register-device/:device-model-UID64/:public-key
+# Register a device with a vendor's registry
+# /register-device/:device-model-UID64/:public-key
 
-	$ curl -X POST https://shurecare.micronets.in/registry/devices/register-device/CQQPBgMCCwk/MYDEVICEPUBLICKEY
-	  > Device registered.
+$ curl -X POST https://shurecare.micronets.in/registry/devices/register-device/CQQPBgMCCwk/MYDEVICEPUBLICKEY
+   > Device registered.
 
-	# Retrieve the MUD registry URL for a vendor:
-	# /mud-registry/:vendor-code
+# Retrieve the MUD registry URL for a vendor:
+# /mud-registry/:vendor-code
 
-    $ curl https://registry.micronets.in/mud/mud-registry/SHCR
-      > https://shurecare.micronets.in/registry/devices/mud-registry
+$ curl https://registry.micronets.in/mud/mud-registry/SHCR
+   > https://shurecare.micronets.in/registry/devices/mud-registry
 
-	# Lookup a MUD url from the vendor MUD registry:
-	# /mud-registry/:public-key
+# Lookup a MUD url from the vendor MUD registry:
+# /mud-registry/:public-key
 
-    $ curl https://shurecare.micronets.in/registry/devices/mud-registry/MYDEVICEPUBLICKEY
-      > https://shurecare.micronets.in/registry/devices/mud-registry
+$ curl https://shurecare.micronets.in/registry/devices/mud-registry/MYDEVICEPUBLICKEY
+   > https://shurecare.micronets.in/registry/devices/mud-registry
 
-    ## Convenience endpoints that redirect to the vendor ##
+## Convenience endpoints that redirect to the vendor ##
 
-    # Register a device through the global registry:
-    # /register-device/:vendor-code/:device-model-UID64/:public-key
+# Register a device through the global registry:
+# /register-device/:vendor-code/:device-model-UID64/:public-key
 
-    $ curl -L -X POST https://registry.micronets.in/mud/register-device/ACMD/BQ0LDQsMDAM/NUTHERPUBLICKEY
-      > Device registered.
+$ curl -L -X POST https://registry.micronets.in/mud/register-device/ACMD/BQ0LDQsMDAM/NUTHERPUBLICKEY
+   > Device registered.
 
-    # Lookup a MUD url from the global registry
-    # /mud-url/:vendor-code/:public-key
+# Lookup a MUD url from the global registry
+# /mud-url/:vendor-code/:public-key
 
-    $ curl -L https://registry.micronets.in/mud/mud-url/ACMD/NUTHERPUBLICKEY
-      > https://alpineseniorcare.com/micronets-mud/BQ0LDQsMDAM
+$ curl -L https://registry.micronets.in/mud/mud-url/ACMD/NUTHERPUBLICKEY
+   > https://alpineseniorcare.com/micronets-mud/BQ0LDQsMDAM
 
 ```
 
@@ -65,11 +65,12 @@ Note: The above examples are using 11 digit UID64 device model identifiers. Any 
 ## Build
 Edit `package.json` to be sure the docker remote registry URL is correct for the `docker_publish` script
 
-```  "scripts": {
+```  
+"scripts": {
     "start": "node ./mud-registry",
     "docker-build": "docker build -t community.cablelabs.com:4567/micronets-docker/micronets-mud-registry .",
     "docker-publish": "docker login community.cablelabs.com:4567; docker push community.cablelabs.com:4567/micronets-docker/micronets-mud-registry"
-  },
+},
 ```
 Install packages, build and publish:
 ```
