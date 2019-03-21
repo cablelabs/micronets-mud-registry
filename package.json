@@ -1,0 +1,23 @@
+{
+  "name": "mud-registry",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./mud-registry.js",
+    "docker-build": "docker build -t community.cablelabs.com:4567/micronets-docker/micronets-mud-registry .",
+    "docker-publish": "docker login community.cablelabs.com:4567; docker push community.cablelabs.com:4567/micronets-docker/micronets-mud-registry"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "consolidate": "^0.13.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "fs-extra": "~4.0.2",
+    "fs-promise": "^2.0.3",
+    "morgan": "~1.9.0",
+    "nedb-promises": "^1.1.1",
+    "serve-favicon": "~2.4.5",
+    "uuid": "~3.1.0"
+  }
+}

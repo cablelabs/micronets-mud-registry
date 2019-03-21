@@ -1,0 +1,7 @@
+node_modules
+boneyard
+#test (need ca files)
+tmp
+.git
+.gitignore
+README.md
