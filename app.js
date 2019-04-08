@@ -23,8 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* routes */
 app.use('/', require('./routes/index'));
-app.use('/registry', require('./routes/registry'));
-app.use('/vendors', require('./routes/vendors'));
+app.use('/registry/v1/', require('./routes/registry'));
+
+// Vendor routes are just a mockup, we don't apply versioning to their endpoints
+app.use('/vendors/', require('./routes/vendors'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

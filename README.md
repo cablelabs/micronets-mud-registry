@@ -20,19 +20,19 @@ The current global mud registry is:
 # Retrieve the device registry URL for a vendor:
 # /device-registry/:vendor-code
 
-$ curl https://registry.micronets.in/mud/device-registry/SHCR
+$ curl https://registry.micronets.in/mud/v1/device-registry/SHCR
    > https://shurecare.micronets.in/registry/devices/register-device
 
 # Register a device with a vendor's registry
 # /register-device/:device-model-UID64/:public-key
 
-$ curl -X POST https://shurecare.micronets.in/registry/devices/register-device/CQQPBgMCCwk/MYDEVICEPUBLICKEY
+$ curl -X POST https://shurecare.micronets.in/registry/v1/devices/register-device/CQQPBgMCCwk/MYDEVICEPUBLICKEY
    > Device registered.
 
 # Retrieve the MUD registry URL for a vendor:
 # /mud-registry/:vendor-code
 
-$ curl https://registry.micronets.in/mud/mud-registry/SHCR
+$ curl https://registry.micronets.in/mud/v1/mud-registry/SHCR
    > https://shurecare.micronets.in/registry/devices/mud-registry
 
 # Lookup a MUD url from the vendor MUD registry:
@@ -46,13 +46,13 @@ $ curl https://shurecare.micronets.in/registry/devices/mud-registry/MYDEVICEPUBL
 # Register a device through the global registry:
 # /register-device/:vendor-code/:device-model-UID64/:public-key
 
-$ curl -L -X POST https://registry.micronets.in/mud/register-device/ACMD/BQ0LDQsMDAM/NUTHERPUBLICKEY
+$ curl -L -X POST https://registry.micronets.in/mud/v1/register-device/ACMD/BQ0LDQsMDAM/NUTHERPUBLICKEY
    > Device registered.
 
 # Lookup a MUD url from the global registry
 # /mud-url/:vendor-code/:public-key
 
-$ curl -L https://registry.micronets.in/mud/mud-url/ACMD/NUTHERPUBLICKEY
+$ curl -L https://registry.micronets.in/mud/v1/mud-url/ACMD/NUTHERPUBLICKEY
    > https://alpineseniorcare.com/micronets-mud/BQ0LDQsMDAM
 
 ```
