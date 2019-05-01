@@ -22,7 +22,7 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
         }
         else {
             // TODO: Maybe return a generic mud URL
-            res.status = 404;
+            res.status(404);
             res.end();
         }
     });
