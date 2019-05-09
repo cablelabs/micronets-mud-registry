@@ -8,6 +8,7 @@
 	https://shurecare.micronets.in/registry/devices --> /vendors
 	https://vitalife.micronets.in/registry/devices --> /vendors
 	https://acmemeds.micronets.in/registry/devices --> /vendors
+	https://hotdawg.micronets.in/registry/devices --> /vendors
 
  */
 
@@ -20,7 +21,8 @@ var router = express.Router();
 const vendors = {
 	"SHCR": "https://shurecare.micronets.in/registry/devices",
 	"VTLF": "https://vitalife.micronets.in/registry/devices",
-	"ACMD": "https://acmemeds.micronets.in/registry/devices"
+	"ACMD": "https://acmemeds.micronets.in/registry/devices",
+	"DAWG": "https://hotdawg.micronets.in/registry/devices"
 }
 
 function getVendorURL(req) {

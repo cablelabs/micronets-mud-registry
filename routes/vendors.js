@@ -18,7 +18,7 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
 
     db.devices.findOne({ pubkey: req.params.pubkey }, function (err, device) {
         if (device != undefined) {
-            res.send(mudURL(device.model));
+            res.send(mudURL(device.model, req.headers.host));
         }
         else {
             // TODO: Maybe return a generic mud URL
@@ -28,8 +28,14 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
     });
 });
 
-function mudURL(model) {
+function mudURL(model, host) {
+    console.log("mudURL - host: "+host);
+    
     // TODO: provide for dev/prod, probably with dev/prod envvar
+
+    if (host == 'hotdawg.micronets.in') {
+        return "https://hotdawg.micronets.in/micronets-mud/"+model;
+    }
     return "https://alpineseniorcare.com/micronets-mud/"+model;
 }
 
