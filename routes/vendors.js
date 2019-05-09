@@ -18,7 +18,7 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
 
     db.devices.findOne({ pubkey: req.params.pubkey }, function (err, device) {
         if (device != undefined) {
-            res.send(mudURL(device.model, req.headers.host));
+            res.send(mudURL(device.model));
         }
         else {
             // TODO: Maybe return a generic mud URL
@@ -28,14 +28,16 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
     });
 });
 
-function mudURL(model, host) {
-    console.log("mudURL - host: "+host);
-    
-    // TODO: provide for dev/prod, probably with dev/prod envvar
+function mudURL(model) {
 
-    if (host == 'hotdawg.micronets.in') {
-        return "https://hotdawg.micronets.in/micronets-mud/"+model;
-    }
+    // One limitation of this tinker toy implementation - the same endpoint for all of the vendors, is that we don't know 
+    // which vendor we are - so we can't serve per vendor urls. All urls point to alpineseniorcare. 
+
+    // A workaround is having symlinks from the MUD at alpineseniorcare.com to the vendor site.
+    // eg. 
+    // cd /var/www/alpineseniorcare.com/html/micronets-mud
+    // sudo ln -s /var/www/hotdawg.micronets.in/html/micronets-mud/AgoNDQcDDgg AgoNDQcDDgg
+
     return "https://alpineseniorcare.com/micronets-mud/"+model;
 }
 
