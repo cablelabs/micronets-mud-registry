@@ -9,6 +9,7 @@ The current set of vendor codes & mud registry urls are:
 - SHCR : https://shurecare.micronets.in/registry/devices
 - VTLF : https://vitalife.micronets.in/registry/devices
 - ACMD : https://acmemeds.micronets.in/registry/devices
+- DAWG : https://hotdawg.micronets.in/registry/devices
 
 The current global mud registry is:
 
@@ -54,6 +55,12 @@ $ curl -L -X POST https://registry.micronets.in/mud/v1/register-device/ACMD/BQ0L
 
 $ curl -L https://registry.micronets.in/mud/v1/mud-url/ACMD/NUTHERPUBLICKEY
    > https://alpineseniorcare.com/micronets-mud/BQ0LDQsMDAM
+
+# retrieve a MUD file via the global registry
+# /mud-file/:vendor-code/:public-key
+
+$ curl -L https://registry.micronets.in/mud/v1/mud-file/ACMD/NUTHERPUBLICKEY
+   > (contents of MUD file)
 
 ```
 

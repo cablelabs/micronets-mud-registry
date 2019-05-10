@@ -90,6 +90,24 @@ router.get('/mud-url/:vendor/:pubkey', function(req, res, next) {
 	res.redirect(301, redirectURL);
 });
 
+// Convenience function to return the MUD file itself
+router.get('/mud-file/:vendor/:pubkey', function(req, res, next) {
+
+	var vendorURL = getVendorURL(req);
+
+	if (!vendorURL || !req.params.pubkey) {
+        res.status(400);
+        var error = {};
+        error.error = "Invalid Request" ;
+        error.status = 400;
+        res.send(JSON.stringify(error, null, 2));
+	}
+
+	var redirectURL = mudFile(vendorURL, req.params.pubkey);
+	console.log("redirecting to: "+redirectURL);
+	res.redirect(301, redirectURL);
+});
+
 // Convenience function to redirect register-device request to vendor's device registry
 router.post('/register-device/:vendor/:model/:pubkey', function(req, res, next) {
 
@@ -110,6 +128,14 @@ router.post('/register-device/:vendor/:model/:pubkey', function(req, res, next) 
 
 function mudURL(baseurl, pubkey) {
 	var url = baseurl + "/mud-registry";
+	if (pubkey) {
+		url += "/" + pubkey;
+	}
+	return url;
+}
+
+function mudFile(baseurl, pubkey) {
+	var url = baseurl + "/mud-file";
 	if (pubkey) {
 		url += "/" + pubkey;
 	}

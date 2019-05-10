@@ -28,6 +28,21 @@ router.get('/mud-registry/:pubkey', function(req, res, next) {
     });
 });
 
+// Same as mud-registry, except return the file itself instead of its URL
+router.get('/mud-file/:pubkey', function(req, res, next) {
+
+    db.devices.findOne({ pubkey: req.params.pubkey }, function (err, device) {
+        if (device != undefined) {
+            res.redirect(301, mudURL(device.model));
+        }
+        else {
+            // TODO: Maybe return a generic mud URL
+            res.status(404);
+            res.end();
+        }
+    });
+});
+
 function mudURL(model) {
 
     // One limitation of this tinker toy implementation - the same endpoint for all of the vendors, is that we don't know 
