@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -L -X POST "https://registry.micronets.in/mud/v1/register-device/DAWG/AgoNDQcDDgg/MYPUBLICKEY"
