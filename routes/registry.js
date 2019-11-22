@@ -108,6 +108,16 @@ router.get('/mud-file/:vendor/:pubkey', function(req, res, next) {
 	res.redirect(301, redirectURL);
 });
 
+// Convenience function to list the registry. Mainly used for testing
+router.get('/list', function(req, res, next) {
+	res.redirect(301, "/vendors/list");
+});
+
+// Convenience function to remove a device (any vendor). Mainly used for testing
+router.post('/remove-device/:pubkey', function(req, res, next) {
+	res.redirect(301, "/vendors/remove-device/" + req.params.pubkey);
+});
+
 // Convenience function to redirect register-device request to vendor's device registry
 router.post('/register-device/:vendor/:model/:pubkey', function(req, res, next) {
 

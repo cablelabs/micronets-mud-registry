@@ -56,10 +56,24 @@ function mudURL(model) {
     return "https://alpineseniorcare.com/micronets-mud/"+model;
 }
 
-// Convenience function to redirect register-device request to vendor's device registry
-router.post('/register-device/:model/:pubkey', function(req, res, next) {
+// Dump the registry
+router.get('/list', function(req, res, next) {
 
-    if (req.params.model == undefined || req.params.pubkey == undefined) { 
+    db.devices.find({}).sort({ timestamp: 1 }).exec(function (err, docs) {
+        if (err) {
+            res.status(400);
+            res.send("List Registry failed: "+ err);
+        }
+        else {
+            res.send(JSON.stringify(docs,null,2));
+        }
+    });
+});
+
+// Remove a device
+router.post('/remove-device/:pubkey', function(req, res, next) {
+
+    if (req.params.pubkey == undefined || req.params.pubkey == "") { 
         res.status(400);
         var error = {};
         error.error = "Invalid request" ;
@@ -67,15 +81,50 @@ router.post('/register-device/:model/:pubkey', function(req, res, next) {
         res.send(JSON.stringify(error, null, 2));
     }
 
-    // upsert not working for some reason. Creates multiple records. Use delete/insert instead
-    //db.devices.update({ pubkey: req.params.pubkey }, req.params, { upsert: true });
-
     db.devices.remove({ pubkey: req.params.pubkey }, { multi: true }, function (err, numRemoved) {
-        db.devices.insert(req.params);
+        // Compact the database. (Size is not the issue, it is hard to read with journal entries)
+        db.devices.persistence.compactDatafile();
+        res.send("Device removed: "+req.params.pubkey);
     });
-    
-    res.send("Device registered");
-    console.log("Device registered: " + JSON.stringify(req.params));
+});
+
+// Register a device. 
+router.post('/register-device/:model/:pubkey', function(req, res, next) {
+
+    if (req.params.model == undefined 
+        || req.params.pubkey == undefined
+        || req.params.model == "" 
+        || req.params.pubkey == "") 
+    { 
+        res.status(400);
+        var error = {};
+        error.error = "Invalid request" ;
+        error.status = 400;
+        res.send(JSON.stringify(error, null, 2));
+    }
+
+    // Add a timestamp string
+    req.params.timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + " UTC"; 
+
+    // Insert if not present, otherwise update existing record
+    db.devices.update({ pubkey: req.params.pubkey }, req.params, { upsert: true, returnUpdatedDocs: true }, function (err, numAffected, record, upsert) {
+        if (err) {
+            res.status(400);
+            var error = {};
+            error.error = "Device Registration failed: "+ err ;
+            error.status = 400;
+            res.send(JSON.stringify(error, null, 2));
+        }
+        else if (upsert) {
+            res.send("Device registered (insert): "+JSON.stringify(record,null,2));
+        }
+        else {
+            res.send("Device registered (update): "+JSON.stringify(record,null,2));
+        }
+
+        // Compact the database. (Size is not the issue, it is hard to read with journal entries)
+        db.devices.persistence.compactDatafile();
+    });
 });
 
 module.exports = router;
