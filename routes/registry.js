@@ -14,15 +14,35 @@
 
 var express = require('express');
 var router = express.Router();
+const fs = require('fs');
+const configPath = '/etc/micronets/config';
+const configFile = configPath + '/mud-registry.conf'
+
 
 // VendorID is A-Z, 4 characters == 456976 vendors. Expand as necessary.
 
 // Statics for demo purposes. These codes are added to the information field of a DPP qrcode.
-const vendors = {
+// Override using config file: /etc/micronets/config/mud-registry.conf
+var vendors = {
 	"SHCR": "https://shurecare.micronets.in/registry/devices",
 	"VTLF": "https://vitalife.micronets.in/registry/devices",
 	"ACMD": "https://acmemeds.micronets.in/registry/devices",
 	"DAWG": "https://hotdawg.micronets.in/registry/devices"
+}
+
+if (fs.existsSync(configFile)) {
+	fs.readFile(configFile, (err, data) => {
+		if (err) {
+			console.log("mud-registry.json file read error: "+e);
+			throw err;
+		}
+		try {
+			vendors = JSON.parse(data).vendors;
+			console.log("mud-registry.conf read, new vendor list: \n"+JSON.stringify(vendors, null, 4));
+		} catch(e) {
+			console.log("mud-registry.json file parse error: "+e);
+		}
+	});
 }
 
 function getVendorURL(req) {

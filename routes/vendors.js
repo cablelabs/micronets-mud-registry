@@ -5,6 +5,14 @@
 var express = require('express');
 var router = express.Router();
 
+// MUD file location
+let mudFileLocation = "https://alpineseniorcare.com/micronets-mud";
+
+if (process.env.mud_base_uri) {
+    mudFileLocation = process.env.mud_base_uri;
+}
+
+
 // Database
 const Datastore = require('nedb');
 let db = {};
@@ -53,7 +61,7 @@ function mudURL(model) {
     // cd /var/www/alpineseniorcare.com/html/micronets-mud
     // sudo ln -s /var/www/hotdawg.micronets.in/html/micronets-mud/AgoNDQcDDgg AgoNDQcDDgg
 
-    return "https://alpineseniorcare.com/micronets-mud/"+model;
+    return mudFileLocation+'/'+model;
 }
 
 // Dump the registry
