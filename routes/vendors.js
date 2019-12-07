@@ -12,11 +12,14 @@ if (process.env.mud_base_uri) {
     mudFileLocation = process.env.mud_base_uri;
 }
 
+var config = require('../lib/config.js');
+var vendors = config.vendors;
 
 // Database
 const Datastore = require('nedb');
 let db = {};
-db.devices = new Datastore({filename: 'device-registration.nedb', autoload: true});
+//db.devices = new Datastore({filename: 'device-registration.nedb', autoload: true});
+db.devices = new Datastore({filename: config.device_db_file, autoload: true});
 db.devices.ensureIndex({fieldName: 'pubkey', unique: true});
 
 // Lookup the url for the MUD file for the device containing this key. Note for this demo
@@ -51,15 +54,22 @@ router.get('/mud-file/:pubkey', function(req, res, next) {
     });
 });
 
+// Similar to above, but no DB lookup required as we are passed the modelUID
+router.get('/model/mud-registry/:model', function(req, res, next) {
+    res.send(mudURL(req.params.model));
+});
+
+// Similar to above, but no DB lookup required as we are passed the modelUID
+router.get('/model/mud-file/:model', function(req, res, next) {
+    var redirect_uri = mudURL(req.params.model);
+    console.log("redirecting to : " + redirect_uri)
+    res.redirect(301, redirect_uri);
+});
+
 function mudURL(model) {
 
     // One limitation of this tinker toy implementation - the same endpoint for all of the vendors, is that we don't know 
-    // which vendor we are - so we can't serve per vendor urls. All urls point to alpineseniorcare. 
-
-    // A workaround is having symlinks from the MUD at alpineseniorcare.com to the vendor site.
-    // eg. 
-    // cd /var/www/alpineseniorcare.com/html/micronets-mud
-    // sudo ln -s /var/www/hotdawg.micronets.in/html/micronets-mud/AgoNDQcDDgg AgoNDQcDDgg
+    // which vendor we are - so we can't serve per vendor urls. All urls point to mudFileLocation. 
 
     return mudFileLocation+'/'+model;
 }
