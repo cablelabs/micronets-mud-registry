@@ -29,6 +29,7 @@ function getVendorURL(req) {
 	else if (req.params.vendor && vendors[req.params.vendor]) {
 		return vendors[req.params.vendor];
 	}
+
 	return undefined;
 }
 
@@ -189,7 +190,7 @@ function registerURL(baseurl, model, pubkey) {
 	if (model && pubkey) {
 		url += "/" + model + "/" + pubkey;
 	}
-	console.log("registerURL: "+url);
+	//console.log("registerURL: "+url);
 	return url;
 }
 
