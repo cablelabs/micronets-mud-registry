@@ -100,7 +100,13 @@ Note: The above examples assume that the MUD files for the specified device mode
 Note: The above examples are using 11 digit UID64 device model identifiers. Any unique indentifer scheme can be used.
 
 ## Installation
-### Build
+There are two types of installation:
+- Install an existing docker container (recommended)
+  + [Download & Run a Tagged Docker Image](https://github.com/cablelabs/micronets/wiki/Docker-Deployment-Guide#docker-image-installation), using a known tag (e.g. 'nccoe-build-3').
+  + Continue with the **Configuration** section (below)
+- Build and install a docker container from sources (instructions follow)
+
+#### Build
 Edit `package.json` to be sure the docker remote registry URL is correct for the `docker_publish` script
 
 ```  
@@ -116,7 +122,7 @@ Install packages, build and publish:
   npm run docker_build
   npm run docker_publish
 ```
-### Deployment
+#### Deployment
 The Micronets MUD Registry is normally deployed as a docker container.
 Docker deployment instructions can be found [here](https://github.com/cablelabs/micronets/wiki/Docker-Deployment-Guide)
 
